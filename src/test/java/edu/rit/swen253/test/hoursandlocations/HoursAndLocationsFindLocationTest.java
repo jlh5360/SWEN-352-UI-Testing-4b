@@ -26,7 +26,6 @@ class HoursAndLocationsFindLocationTest extends AbstractWebTest {
   private TigerCenterHomePage homePage;
   private HoursAndLocationsPage hrAndLocPage;
   private Location firstLocation;
-  private BrowserWindow<TigerCenterHomePage> homeWindow;
 
   //
   // Test sequence
@@ -38,7 +37,6 @@ class HoursAndLocationsFindLocationTest extends AbstractWebTest {
   void navigateToHomePage() {
     homePage = navigateToPage("https://tigercenter.rit.edu", TigerCenterHomePage::new);
     assertNotNull(homePage);
-    homeWindow = getCurrentWindow();
   }
 
   @Test
@@ -52,10 +50,20 @@ class HoursAndLocationsFindLocationTest extends AbstractWebTest {
 
   @Test
   @Order(3)
-  @DisplayName("Third, click the first location on the list and assert that the hours are displayed")
+  @DisplayName("Third, click the map icon of the first location on the list")
   void clickFirstLocation() {
     firstLocation = hrAndLocPage.getFirstLocation();
-    firstLocation.click();
-    assertTrue(firstLocation.isDisplayed());
+    String mapIconURL = firstLocation.getMapIconURL();
+    //for some reason clicking on the link gets rid of the /m in the middle of the link, so I am just cutting that out
+    mapIconURL = mapIconURL.substring(0,21)+mapIconURL.substring(23);
+    firstLocation.clickMapIcon();
+    final SimplePage mapsPage = assertNewWindowAndSwitch(SimplePage::new);
+
+    // there's a timing issue with Firefox (give it a second to render)
+    if (onBrowser(FIREFOX)) {
+      sleep(1);
+    }
+
+    assertEquals(mapIconURL, mapsPage.getURL());
   }
 }

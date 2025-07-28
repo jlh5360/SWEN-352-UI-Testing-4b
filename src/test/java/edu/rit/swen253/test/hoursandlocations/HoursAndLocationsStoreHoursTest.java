@@ -1,13 +1,11 @@
 package edu.rit.swen253.test.hoursandlocations;
 
-import edu.rit.swen253.page.SimplePage;
+import edu.rit.swen253.page.hoursandlocations.HoursAndLocationsPage;
+import edu.rit.swen253.page.hoursandlocations.Location;
 import edu.rit.swen253.page.tiger.TigerCenterHomePage;
 import edu.rit.swen253.test.AbstractWebTest;
-import edu.rit.swen253.utils.BrowserWindow;
 import org.junit.jupiter.api.*;
 
-import static edu.rit.swen253.utils.BrowserType.FIREFOX;
-import static edu.rit.swen253.utils.BrowserType.onBrowser;
 import static edu.rit.swen253.utils.TimingUtils.sleep;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class HoursAndLocationsStoreHoursTest extends AbstractWebTest {
 
   private TigerCenterHomePage homePage;
-  private BrowserWindow<TigerCenterHomePage> homeWindow;
+  private HoursAndLocationsPage hrAndLocPage;
+  private Location firstLocation;
 
   //
   // Test sequence
@@ -34,7 +33,6 @@ class HoursAndLocationsStoreHoursTest extends AbstractWebTest {
   void navigateToHomePage() {
     homePage = navigateToPage("https://tigercenter.rit.edu", TigerCenterHomePage::new);
     assertNotNull(homePage);
-    homeWindow = getCurrentWindow();
   }
 
   @Test
@@ -42,6 +40,16 @@ class HoursAndLocationsStoreHoursTest extends AbstractWebTest {
   @DisplayName("Second, click on the Hours & Locations button and validate navigation.")
   void navigateToHoursAndLocations() {
     homePage.selectHoursAndLocations();
+    hrAndLocPage = new HoursAndLocationsPage();
     assertTrue(seleniumUtils.getCurrentUrl().contains("hours-and-locations"));
+  }
+
+  @Test
+  @Order(3)
+  @DisplayName("Third, click the first location on the list and assert that the hours are displayed")
+  void clickFirstLocation() {
+    firstLocation = hrAndLocPage.getFirstLocation();
+    firstLocation.click();
+    assertTrue(firstLocation.dropdownisDisplayed());
   }
 }
