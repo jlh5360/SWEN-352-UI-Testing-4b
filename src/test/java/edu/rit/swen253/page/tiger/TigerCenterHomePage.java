@@ -4,7 +4,7 @@ import edu.rit.swen253.page.AbstractAngularPage;
 import edu.rit.swen253.utils.DomElement;
 import edu.rit.swen253.utils.HtmlUtils;
 import org.openqa.selenium.By;
-
+import edu.rit.swen253.page.tiger.TigerCenterHomePage;
 import java.util.List;
 
 
