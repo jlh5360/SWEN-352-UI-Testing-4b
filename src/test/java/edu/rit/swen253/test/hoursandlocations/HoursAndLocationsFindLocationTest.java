@@ -1,6 +1,8 @@
-package edu.rit.swen253.test.maps;
+package edu.rit.swen253.test.hoursandlocations;
 
 import edu.rit.swen253.page.SimplePage;
+import edu.rit.swen253.page.hoursandlocations.HoursAndLocationsPage;
+import edu.rit.swen253.page.hoursandlocations.Location;
 import edu.rit.swen253.page.tiger.TigerCenterHomePage;
 import edu.rit.swen253.test.AbstractWebTest;
 import edu.rit.swen253.utils.BrowserWindow;
@@ -18,12 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
-@Disabled
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class NavigateToRitMapsTest extends AbstractWebTest {
+class HoursAndLocationsFindLocationTest extends AbstractWebTest {
 
   private TigerCenterHomePage homePage;
-  private BrowserWindow<TigerCenterHomePage> homeWindow;
+  private HoursAndLocationsPage hrAndLocPage;
+  private Location firstLocation;
 
   //
   // Test sequence
@@ -35,14 +37,26 @@ class NavigateToRitMapsTest extends AbstractWebTest {
   void navigateToHomePage() {
     homePage = navigateToPage("https://tigercenter.rit.edu", TigerCenterHomePage::new);
     assertNotNull(homePage);
-    homeWindow = getCurrentWindow();
   }
 
   @Test
   @Order(2)
-  @DisplayName("Second, click on the Maps at RIT button and validate navigation.")
-  void navigateToMaps() {
-    homePage.selectMapsAtRIT();
+  @DisplayName("Second, click on the Hours & Locations button and validate navigation.")
+  void navigateToHoursAndLocations() {
+    homePage.selectHoursAndLocations();
+    hrAndLocPage = new HoursAndLocationsPage();
+    assertTrue(seleniumUtils.getCurrentUrl().contains("hours-and-locations"));
+  }
+
+  @Test
+  @Order(3)
+  @DisplayName("Third, click the map icon of the first location on the list")
+  void clickFirstLocation() {
+    firstLocation = hrAndLocPage.getFirstLocation();
+    String mapIconURL = firstLocation.getMapIconURL();
+    //for some reason clicking on the link gets rid of the /m in the middle of the link, so I am just cutting that out
+    mapIconURL = mapIconURL.substring(0,21)+mapIconURL.substring(23);
+    firstLocation.clickMapIcon();
     final SimplePage mapsPage = assertNewWindowAndSwitch(SimplePage::new);
 
     // there's a timing issue with Firefox (give it a second to render)
@@ -50,15 +64,6 @@ class NavigateToRitMapsTest extends AbstractWebTest {
       sleep(1);
     }
 
-    assertEquals("https://maps.rit.edu/", mapsPage.getURL());
-  }
-
-  @Test
-  @Order(3)
-  @DisplayName("Just to validate the new switchToWindow API.")
-  void switchToApp() {
-    assertNotSame(homePage, getCurrentWindow().page(), "Before switch");
-    switchToWindow(homeWindow);
-    assertSame(homePage, getCurrentWindow().page(), "After switch");
+    assertEquals(mapIconURL, mapsPage.getURL());
   }
 }

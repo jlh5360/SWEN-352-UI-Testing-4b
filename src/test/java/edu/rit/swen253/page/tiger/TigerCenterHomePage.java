@@ -41,6 +41,15 @@ public class TigerCenterHomePage extends AbstractAngularPage {
     findButtonLink(NavButton.CLASS_SEARCH).click();
   }
 
+  /**
+   * Select the <em>Class Search</em> feature.
+   * <p>
+   * This action navigates to the Class Search page of the TigerCenter app.
+   */
+  public void selectHoursAndLocations() {
+    findButtonLink(NavButton.HOURS_AND_LOCATIONS).click();
+  }
+
   //
   // Private
   //
