@@ -68,4 +68,13 @@ public class TigerCenterHomePage extends AbstractAngularPage {
       .findFirst()
       .orElseThrow(() -> new RuntimeException("Could not find button link"));
   }
+
+  /**
+   * This action navigates to the GPA Calculator page of the TigerCenter app
+   */
+  public void selectGPACalculator() {
+    findButtonLink(NavButton.GPA_CALCULATOR).click();
+  }
+
 }
+
