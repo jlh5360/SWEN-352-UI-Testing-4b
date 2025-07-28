@@ -1,5 +1,6 @@
 package edu.rit.swen253.test.GPA;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -20,7 +21,7 @@ import edu.rit.swen253.test.AbstractWebTest;
 import edu.rit.swen253.utils.BrowserWindow;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class GPAGraduateStudentTest extends AbstractWebTest {
+public class GPACalculatorTest extends AbstractWebTest {
     private TigerCenterHomePage homePage;
     private BrowserWindow<TigerCenterHomePage> homeWindow;
 
@@ -48,29 +49,26 @@ public class GPAGraduateStudentTest extends AbstractWebTest {
 
     @Test
     @Order(3)
-    @DisplayName("Calculating GPAs - Term and Cummulative as a Graduate Student ")
+    @DisplayName("Calculating GPAs - Term and Cummulative")
     void calculateGPA() {
-        switchToWindow(homeWindow);
         switchToWindow(homeWindow);
         GPACalculator gpaPage = new GPACalculator();
 
-        gpaPage.enterCummulativeGPA((float) 3.68);
-        gpaPage.enterCredits(12);
-        gpaPage.isGradStudent();
+        gpaPage.enterCummulativeGPA(3);
+        gpaPage.enterCredits(18);
 
         List<Course> courses = List.of(
-            new Course("SWEN601", 3, "A"),
-            new Course("SWEN610", 3, "B+"),
-            new Course("SWEN640", 3, "B+"),
-            new Course("SWEN746", 3, "A"),
-            new Course("SWEN732", 3, "B")
+            new Course("GCIS123", 4, "A"),
+            new Course("MATH182", 3, "B+"),
+            new Course("PHYS-150", 3, "A"),
+            new Course("SWEN250", 3, "B")
         );
 
         gpaPage.insertCourses(courses);
 
         GPAResult result = gpaPage.calculateGPA();
         assertNotNull(result);
-        System.out.println("Term GPA (Grad): " + result.getTermGPA());
-        System.out.println("Cumulative GPA (Grad): " + result.getCummulativeGPA());
+        System.out.println("Term GPA: " + result.getTermGPA());
+        System.out.println("Cumulative GPA: " + result.getCummulativeGPA());
     }   
 }
