@@ -19,9 +19,6 @@ import org.openqa.selenium.TimeoutException;
  * Represents the Class Search page of the TigerCenter Angular web application.
  */
 public class ClassSearchPage extends AbstractAngularPage {
-
-    // Assuming the angular view tag name for the class search page is "class-search-view"
-    // You would confirm this by inspecting the actual Class Search page in the browser developer tools.
     private static final String CLASS_SEARCH_ANGULAR_VIEW_TAG_NAME = "class-search";
     private static final By SEARCH_INPUT_FINDER = By.cssSelector("input[type='search']");
     private static final By SEARCH_BUTTON_FINDER = By.cssSelector("button[class='classSearchSearchButton ng-star-inserted']");
@@ -34,7 +31,6 @@ public class ClassSearchPage extends AbstractAngularPage {
         //Validate basic page structure
         try {
             findOnPage(SEARCH_INPUT_FINDER);
-            // findOnPage(SEARCH_BUTTON_FINDER);
             findOnPage(SEARCH_TERM_FINDER);
         } catch (TimeoutException e) {
             fail("Class Search page elements not found: " + e.getMessage());
@@ -77,20 +73,14 @@ public class ClassSearchPage extends AbstractAngularPage {
      * to be more specific based on the actual DOM structure of search results.
      */
     public void assertSearchResultsDisplayed() {
-        // Placeholder: Look for a common element that indicates search results, e.g., a table or list of courses.
-        // Based on the given DOM, we don't have the search results structure.
-        // Assuming a div with a specific class or ID for results.
-        // For example, if results are in a <div> with class "course-list"
         DomElement searchResultsContainer = findOnPage(By.cssSelector("div.classSearchBasicResultsMargin"));
         assertTrue(searchResultsContainer.isDisplayed(), "Search results should be displayed.");
-        // Further assertions could involve checking for specific course titles or counts
     }
 
     /**
      * Asserts that a message prompting to select a term is displayed.
      */
     public void assertSelectTermMessageDisplayed() {
-        // Placeholder: Look for a message indicating that a term must be selected.
         DomElement selectTermMessage = findOnPage(By.xpath("//*[contains(text(), 'You must select a term')]"));
         assertTrue(selectTermMessage.isDisplayed(), "Message to select a term should be displayed.");
     }
@@ -109,12 +99,9 @@ public class ClassSearchPage extends AbstractAngularPage {
      * @param subjectArea The text of the subject area (e.g., "CAD - College of Art and Design").
      */
     public void expandCourseCatalogSubject(String subjectArea) {
-        // Placeholder: Assuming the subject areas are clickable elements (e.g., divs, li, a)
-        // within the angularView, and they expand upon clicking.
         DomElement subjectElement = angularView.findChildBy(By.xpath(String.format("//mat-expansion-panel-header[contains(., '%s')]", subjectArea)));
         subjectElement.click();
-        // Add a small wait if the expansion is animated
-        TimingUtils.sleep(3);
+        TimingUtils.sleep(3);   //Wait for details to load
     }
 
     /**
@@ -125,7 +112,7 @@ public class ClassSearchPage extends AbstractAngularPage {
         // Placeholder: Assuming the course names are clickable elements.
         DomElement courseElement = angularView.findChildBy(By.xpath(String.format("//div[.//span[contains(text(), '%s')]]", courseName)));
         courseElement.click();
-        TimingUtils.sleep(3); // Wait for details to load
+        TimingUtils.sleep(3);   //Wait for details to load
     }
 
     /**
@@ -142,7 +129,6 @@ public class ClassSearchPage extends AbstractAngularPage {
      * Asserts that a list of available sections is displayed.
      */
     public void assertSectionsDisplayed() {
-        // Placeholder: Check for a table or list that contains sections.
         DomElement sectionsList = findOnPage(By.cssSelector("div.courseCatalogCourseHeaders"));
         assertTrue(sectionsList.isDisplayed(), "Course sections should be displayed.");
     }
@@ -151,28 +137,18 @@ public class ClassSearchPage extends AbstractAngularPage {
      * Helper functions to find particular elements
      */
     private DomElement findKeywordInputField() {
-        // Based on tigerCenterApp-class-search.txt (if it were for class search):
-        // <input _ngcontent-jbs-c209="" class="form-control ng-pristine ng-invalid ng-touched" type="text" formcontrolname="keyword" placeholder="Course keyword">
         return angularView.findChildBy(SEARCH_INPUT_FINDER);
     }
 
     private DomElement findTermDropdown() {
-        // Based on tigerCenterApp-class-search.txt (if it were for class search):
-        // <select _ngcontent-jbs-c210="" class="form-control ng-pristine ng-valid ng-touched" formcontrolname="termId">
         return angularView.findChildBy(SEARCH_TERM_FINDER);
     }
 
     private DomElement findSearchButton() {
-        // Based on tigerCenterApp-class-search.txt (if it were for class search):
-        // <button _ngcontent-jbs-c209="" class="btn btn-primary" type="submit">
-        // return angularView.findChildBy(SEARCH_BUTTON_FINDER);
         return angularView.findChildBy(By.cssSelector("button.classSearchSearchButton"));
     }
 
     private DomElement findCourseCatalogLink() {
-        // Based on tigerCenterApp-class-search.txt (if it were for class search):
-        // <a _ngcontent-jbs-c209="" class="nav-link" routerlink="/course-catalog" href="/course-catalog">Course Catalog</a>
-        // Or could be a button: By.xpath("//button[contains(text(), 'Course Catalog')]")
         return angularView.findChildBy(By.linkText("Course Catalog"));
     }
 }
