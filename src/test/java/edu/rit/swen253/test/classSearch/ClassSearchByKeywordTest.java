@@ -71,6 +71,6 @@ public class ClassSearchByKeywordTest extends AbstractWebTest {
         logger.info("Assertion: Search results displayed for keyword '" + keyword + "' and term '" + term + "'.");
 
         //Goal Achieved: The user has successfully searched for classes and seen the results.
-        logger.info("Test 'successfulSearchForKeywordAndTerm' passed for Class Search by Keyword.");
+        logger.info("Test 'successfulSearchForKeywordAndTerm' passed for Class Search by Keyword.  GOAL ACHIEVED.");
     }
 }

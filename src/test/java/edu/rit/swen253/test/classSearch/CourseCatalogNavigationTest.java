@@ -39,7 +39,7 @@ public class CourseCatalogNavigationTest extends AbstractWebTest {
         //Action 2: Click on the "Class Search" button.
         logger.info("Action 2: Clicking on 'Class Search' button.");
         homePage.selectClassSearch();
-        
+
         //System response 2: System responds with the Class Search page in the same tag.
         ClassSearchPage classSearchPage = new ClassSearchPage(); // Create new page object for the new view
         logger.info("System response 2: Class Search page loaded. Current URL: " + seleniumUtils.getCurrentUrl());
@@ -47,28 +47,44 @@ public class CourseCatalogNavigationTest extends AbstractWebTest {
         logger.info("Assertion: Successfully navigated to Class Search page.");
 
         //Action 3: Click on the "Course Catalog" link/button.
+        logger.info("Action 3: Clicking on 'Course Catalog' link/button.");
         classSearchPage.clickCourseCatalogLink();
+        logger.info("System response 3: Course Catalog overlay displayed.");
         //System response: System displays a course catalog overlay of a list of academic subjects or an expandable tree structure.
 
         //Action 4: Click on "CAD - College of Art and Design".
-        classSearchPage.expandCourseCatalogSubject("College of Art and Design");
+        String CAD = "College of Art and Design";
+        logger.info("Action 4: Expanding Course Catalog subject: '" + CAD + "'.");
+        classSearchPage.expandCourseCatalogSubject(CAD);
+        logger.info("System response 4: Subject '" + CAD + "' expanded.");
         //System response: System displays opening of the expandable tree or accordion of various subjects.
 
         //Action 5: Click on "ARED - Art Education".
-        classSearchPage.expandCourseCatalogSubject("Art Education");
+        String ARED = "Art Education";
+        logger.info("Action 5: Expanding Course Catalog subject: '" + ARED + "'.");
+        classSearchPage.expandCourseCatalogSubject(ARED);
+        logger.info("System response 5: Subject '" + ARED + "' expanded.");
         //System response: System displays opening of the expandable tree or accordion of various courses.
 
         //Action 6: Click on "Child Development in Art".
-        classSearchPage.selectCourseFromCatalog("Child Development in Art");
+        String courseName = "Child Development in Art";
+        logger.info("Action 6: Selecting course from catalog: '" + courseName + "'.");
+        classSearchPage.selectCourseFromCatalog(courseName);
+        logger.info("System response 6: Detailed information for '" + courseName + "' displayed.");
         //System response: System displays detailed information for "Child Development in Art".
 
         //Action 7: Select "2025 - 26 Fall (2251)" from the term dropdown within the course details.
-        classSearchPage.selectTermInCourseDetails("2025 - 26 Fall (2251)");
+        String term = "2025 - 26 Fall (2251)";
+        logger.info("Action 7: Selecting term '" + term + "' within course details.");
+        classSearchPage.selectTermInCourseDetails(term);
+        logger.info("System response 7: Term '" + term + "' selected in course details.");
 
         //System response: System displays a list of available sections for "Child Development in Art" for the 2025-26 Fall term.
+        logger.info("System response: Attempting to assert sections displayed.");
         classSearchPage.assertSectionsDisplayed();
+        logger.info("Assertion: Available sections displayed for course '" + courseName + "' for term '" + term + "'.");
 
         //Goal Achieved: The user has successfully navigated to and viewed available sections for a specific course via the Course Catalog.
-        System.out.println("Test 'navigateToAvailableSectionViaCourseCatalog' passed for Course Catalog Navigation.");
+        logger.info("Test 'navigateToAvailableSectionViaCourseCatalog' passed for Course Catalog Navigation.  GOAL ACHIEVED.");
     }
 }
