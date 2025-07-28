@@ -2,17 +2,14 @@ package edu.rit.swen253.page.classSearch;
 
 import edu.rit.swen253.page.AbstractAngularPage;
 import edu.rit.swen253.utils.DomElement;
-import edu.rit.swen253.utils.HtmlUtils;
-import edu.rit.swen253.utils.SeleniumUtils;
 import edu.rit.swen253.utils.TimingUtils;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.Select;
-import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import org.openqa.selenium.TimeoutException;
 
 
 /**
@@ -23,7 +20,7 @@ public class ClassSearchPage extends AbstractAngularPage {
     private static final By SEARCH_INPUT_FINDER = By.cssSelector("input[type='search']");
     private static final By SEARCH_BUTTON_FINDER = By.cssSelector("button[class='classSearchSearchButton ng-star-inserted']");
     private static final By SEARCH_TERM_FINDER = By.cssSelector("select[name='termSelector']");
-    private static final By COURSE_CATALOG_TERM_FINDER = By.cssSelector("select[name='courseCatalogTermSelector']");
+    private static final By COURSE_CATALOG_LINK_FINDER = By.linkText("Course Catalog");
 
     public ClassSearchPage() {
         super(CLASS_SEARCH_ANGULAR_VIEW_TAG_NAME);
@@ -45,7 +42,6 @@ public class ClassSearchPage extends AbstractAngularPage {
         DomElement keywordInputField = findKeywordInputField();
         keywordInputField.clear(); // Clear any existing text
         keywordInputField.sendKeys(keyword);
-        // keywordInputField.submit();
     }
 
     /**
@@ -59,22 +55,25 @@ public class ClassSearchPage extends AbstractAngularPage {
     }
 
     /**
-     * Clicks the Search button.
+     * Clicks the Search button and returns a SearchResultsView.
+     * @return A new SearchResultsView page object.
      */
-    public void clickSearchButton() {
+    public SearchResultsView clickSearchButton() {
         DomElement searchButton = findSearchButton();
-        // DomElement searchButton = findOnPage(SEARCH_BUTTON_FINDER);
         searchButton.click();
-        TimingUtils.sleep(3);
+        TimingUtils.sleep(3); // Wait for results to load
+        return new SearchResultsView();
     }
 
     /**
-     * Asserts that course results are displayed. This is a generic check and might need
-     * to be more specific based on the actual DOM structure of search results.
+     * Clicks the Course Catalog link/button and returns a CourseCatalogView.
+     * @return A new CourseCatalogView page object.
      */
-    public void assertSearchResultsDisplayed() {
-        DomElement searchResultsContainer = findOnPage(By.cssSelector("div.classSearchBasicResultsMargin"));
-        assertTrue(searchResultsContainer.isDisplayed(), "Search results should be displayed.");
+    public CourseCatalogView clickCourseCatalogLink() {
+        DomElement courseCatalogLink = findCourseCatalogLink();
+        courseCatalogLink.click();
+        TimingUtils.sleep(3); // Wait for overlay to load
+        return new CourseCatalogView();
     }
 
     /**
@@ -86,69 +85,30 @@ public class ClassSearchPage extends AbstractAngularPage {
     }
 
     /**
-     * Clicks the Course Catalog link/button.
-     */
-    public void clickCourseCatalogLink() {
-        DomElement courseCatalogLink = findCourseCatalogLink();
-        courseCatalogLink.click();
-        TimingUtils.sleep(3);
-    }
-
-    /**
-     * Interacts with the Course Catalog overlay to expand a subject area.
-     * @param subjectArea The text of the subject area (e.g., "CAD - College of Art and Design").
-     */
-    public void expandCourseCatalogSubject(String subjectArea) {
-        DomElement subjectElement = angularView.findChildBy(By.xpath(String.format("//mat-expansion-panel-header[contains(., '%s')]", subjectArea)));
-        subjectElement.click();
-        TimingUtils.sleep(3);   //Wait for details to load
-    }
-
-    /**
-     * Interacts with the Course Catalog overlay to select a specific course.
-     * @param courseName The text of the course name (e.g., "Child Development in Art").
-     */
-    public void selectCourseFromCatalog(String courseName) {
-        // Placeholder: Assuming the course names are clickable elements.
-        DomElement courseElement = angularView.findChildBy(By.xpath(String.format("//div[.//span[contains(text(), '%s')]]", courseName)));
-        courseElement.click();
-        TimingUtils.sleep(3);   //Wait for details to load
-    }
-
-    /**
-     * Selects a term from the dropdown within the course details view of the catalog.
-     * @param term The visible text of the term to select.
-     */
-    public void selectTermInCourseDetails(String term) {
-        DomElement courseDetailTermDropdown = findOnPage(By.cssSelector("select[name='courseCatalogTermSelector']"));
-        Select select = new Select(courseDetailTermDropdown.getWebElement());
-        select.selectByVisibleText(term);
-    }
-
-    /**
-     * Asserts that a list of available sections is displayed.
-     */
-    public void assertSectionsDisplayed() {
-        DomElement sectionsList = findOnPage(By.cssSelector("div.courseCatalogCourseHeaders"));
-        assertTrue(sectionsList.isDisplayed(), "Course sections should be displayed.");
-    }
-
-    /**
-     * Helper functions to find particular elements
+     * Helper function to find keyword input field.
      */
     private DomElement findKeywordInputField() {
         return angularView.findChildBy(SEARCH_INPUT_FINDER);
     }
 
+    /**
+     * Helper function to find term dropdown.
+     */
     private DomElement findTermDropdown() {
         return angularView.findChildBy(SEARCH_TERM_FINDER);
     }
 
+    /**
+     * Helper function to find search button.
+     */
     private DomElement findSearchButton() {
         return angularView.findChildBy(By.cssSelector("button.classSearchSearchButton"));
     }
 
+    /**
+     * Helper function to find course catalog link.
+     */
     private DomElement findCourseCatalogLink() {
-        return angularView.findChildBy(By.linkText("Course Catalog"));
+        return angularView.findChildBy(COURSE_CATALOG_LINK_FINDER);
     }
 }
