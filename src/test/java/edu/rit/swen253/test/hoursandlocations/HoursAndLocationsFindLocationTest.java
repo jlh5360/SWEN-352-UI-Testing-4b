@@ -1,6 +1,8 @@
-package edu.rit.swen253.test.maps;
+package edu.rit.swen253.test.hoursandlocations;
 
 import edu.rit.swen253.page.SimplePage;
+import edu.rit.swen253.page.hoursandlocations.HoursAndLocationsPage;
+import edu.rit.swen253.page.hoursandlocations.Location;
 import edu.rit.swen253.page.tiger.TigerCenterHomePage;
 import edu.rit.swen253.test.AbstractWebTest;
 import edu.rit.swen253.utils.BrowserWindow;
@@ -18,11 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
-@Disabled
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class NavigateToRitMapsTest extends AbstractWebTest {
+class HoursAndLocationsFindLocationTest extends AbstractWebTest {
 
   private TigerCenterHomePage homePage;
+  private HoursAndLocationsPage hrAndLocPage;
+  private Location firstLocation;
   private BrowserWindow<TigerCenterHomePage> homeWindow;
 
   //
@@ -40,25 +43,19 @@ class NavigateToRitMapsTest extends AbstractWebTest {
 
   @Test
   @Order(2)
-  @DisplayName("Second, click on the Maps at RIT button and validate navigation.")
-  void navigateToMaps() {
-    homePage.selectMapsAtRIT();
-    final SimplePage mapsPage = assertNewWindowAndSwitch(SimplePage::new);
-
-    // there's a timing issue with Firefox (give it a second to render)
-    if (onBrowser(FIREFOX)) {
-      sleep(1);
-    }
-
-    assertEquals("https://maps.rit.edu/", mapsPage.getURL());
+  @DisplayName("Second, click on the Hours & Locations button and validate navigation.")
+  void navigateToHoursAndLocations() {
+    homePage.selectHoursAndLocations();
+    hrAndLocPage = new HoursAndLocationsPage();
+    assertTrue(seleniumUtils.getCurrentUrl().contains("hours-and-locations"));
   }
 
   @Test
   @Order(3)
-  @DisplayName("Just to validate the new switchToWindow API.")
-  void switchToApp() {
-    assertNotSame(homePage, getCurrentWindow().page(), "Before switch");
-    switchToWindow(homeWindow);
-    assertSame(homePage, getCurrentWindow().page(), "After switch");
+  @DisplayName("Third, click the first location on the list and assert that the hours are displayed")
+  void clickFirstLocation() {
+    firstLocation = hrAndLocPage.getFirstLocation();
+    firstLocation.click();
+    assertTrue(firstLocation.isDisplayed());
   }
 }
