@@ -1,0 +1,350 @@
+=================================================================
+NOTES / PERSONAL BRAINSTORMING / PROGRESS THINKING
+
+ADD SOME TEMPORARY PSEUDOCODE TO CODE FOR MY HELPER FUNCTIONS TO FIND PARTICULAR ELEMENTS
+NEED TO REFERENCE THIS NOTE FILE TO REMEMBER
+=================================================================
+
+=================================================================
+THE DEV TOOL INSPECT ELEMENT IS BROKEN
+ONLY SHOWING EMPTY / GRAY
+TAKES TOO LONG TO LOAD
+MAYBE MY PC IS TOO SLOW AND HAS RESOURCES BEING HEAVILY USED
+
+RESTARTING DOESN'T WORK!!!!!!!!!!!!!!!!!!!
+
+AAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!!!!!!!!!!!!!!!
+=================================================================
+
+=================================================================
+NEED TO BRAINSTORM AND REMEMBER WHAT EVER I CAN
+
+UNTIL INSPECT DEV TOOL WORKS/LOADS
+=================================================================
+
+
+
+=================================================================
+Based on TigerCenterHomePage.java, their angular view name is "landing-page"
+
+MAYBE THE CLASS SEARCH angular view name is "class-search-view"
+
+Add note to main CLASS SEARCH file
+
+NEVER MIND!!!
+WHY DID I THIS IT WAS A "-view"
+NOW THAT I THINK ABOUT IT, IT IS ACTUALLY LIKELY "class-search-page"
+
+
+NEVER MIND AGAIN!!!!!
+
+DOM INSPECT TOOL FINALLY LOADED
+IT'S JUST A SIMPLE "class-search"
+=================================================================
+
+
+
+NEED TO ADD SOME PLACEHOLDER NOTES
+ASSUME SOME THINGS ABOUT THE DOM UNTIL INSPECT TOOL WORKS!!!!!!!!
+
+
+
+
+=================================================================
+maybe for finding the search keyword input field element
+With type DomElement
+(if it were for class search)
+=================================================================
+
+IDEA / POSSIBILITY SINCE ANGULAR / WHAT I CAN REMEMBER OF THE DOM (HAS YET TO LOAD)
+    -  LIKELY AN INPUT
+    -  LIKELY TYPE SEARCH BUT CAN BE TEXT
+    -  ANGULAR CAN HAVE  formcontrolname="keyword"
+    -  I see a lot of ng-(blah blah blah)
+LOOK BACK AT PREVIOUS ANGULAR PROJECTS AND THINK BACK TO MY NUXT/VUE CO-OP
+
+BE SURE TO REFERENCE THIS IN MY MAIN CLASS SEARCH COMPONENT / FUNCTIONS / ETC
+
+        // i.e.
+        // THE DOM ELEMENT CAN LOOK LIKE THIS IN AN ANGULAR SETTING
+        // <input _ngcontent-jbs-c209="" class="form-control ng-pristine ng-invalid ng-touched" type="text" formcontrolname="keyword">
+        // IF THE FORM IS INSIDE THE CUSTOM ANGULAR ELEMENT VIEW, IT MIGHT HAVE A FORM GROUP ATTRIBUTE, SO THE INPUTS WOULD THEN HAVE TO HAVE A FORM CONTROL NAME
+        //     -  https://angular.dev/api/forms/FormControlName
+        //     -  https://medium.com/@brandon93.w/angular-complete-guide-to-reactive-forms-094c4f7b98e9
+
+        ACTUALLY
+        LOOKING BACK PREVIOUS ANGULAR PROJECTS AND RESEARCH AND LOOKING AT THE DOM
+                                                                                ^
+                                                                FINALLY YOU LOADED JESUS CHRIST!!!!!!!!!!!!!!
+        I WAS OVERTHINKING EVERYTHING
+
+        SHOULD JUST BE A SIMPLE "input[type='search']" FOR A BY CSS SELECTOR OR SOMETHING
+
+        THAT SHOULD WORK
+
+        OH OKAY ----------------------> I NEED TO MAKE USE OF THE OTHER FILES
+        SINCE THE DOM OF THE TIGER CENTER LANDING PAGE AND CLASS SEARCH PAGE HAVE CUSTOM ELEMENTS
+        I WILL NEED TO USE ANGULAR VIEW angularView
+
+        THIS SHOULD WORK
+        angularView.findChildBy(By.cssSelector("input[type='search']"));
+
+
+
+
+
+=================================================================
+maybe for finding select options term dropdown element thing
+With type DomElement
+(if it were for class search)
+=================================================================
+
+IDEA / POSSIBILITY SINCE ANGULAR / WHAT I CAN REMEMBER OF THE DOM (HAS YET TO LOAD)
+    -  LIKELY A SELECT WITH OPTIONS
+    -  NEED TO FIND THE ID OR CLASS OR NAME OR SOME CUSTOM ATTRIBUTE
+    -  ANGULAR CAN HAVE  formcontrolname="termId"
+    -  I see a lot of ng-(blah blah blah)
+    -  SHOULD BE PART OF A form
+    -  There are a lot of these kind of _ngcontent-jbs-c210 or _ngcontent-bis-c225 and BLAH BLAH jibberish
+    -  Based on the form element and the other
+        -  NOTE FOR SOME FORM CONTROL OR ELEMENT CONTROL
+        -  MIGHT NEED TO CHECK IF SOMETHING IS VALID (LIKE THE OPTIONS)
+        -  MIGHT NEED TO CHECK IF SOMETHING IS SELECTED OR touched
+    -  Never mind, it was just a simple name attribute with "termSelector" as the name
+
+LOOK BACK AT PREVIOUS ANGULAR PROJECTS AND THINK BACK TO MY NUXT/VUE CO-OP
+
+BE SURE TO REFERENCE THIS IN MY MAIN CLASS SEARCH COMPONENT / FUNCTIONS / ETC
+
+        // i.e.
+        // THE DOM ELEMENT CAN LOOK LIKE THIS IN AN ANGULAR SETTING
+        // <select _ngcontent-jbs-c210="" class="form-control ng-pristine ng-valid ng-touched" formcontrolname="termId">
+        // IF THE FORM IS INSIDE THE CUSTOM ANGULAR ELEMENT VIEW, IT MIGHT HAVE A FORM GROUP ATTRIBUTE, SO THE INPUTS WOULD THEN HAVE TO HAVE A FORM CONTROL NAME
+        //     -  https://angular.dev/api/forms/FormControlName
+        //     -  https://medium.com/@brandon93.w/angular-complete-guide-to-reactive-forms-094c4f7b98e9
+
+        
+        ACTUALLY
+        LOOKING AT THE DOM
+                        ^
+        WHY IS IT STILL TAKING FOREVER TO LOAD!?!?!?!?!?!
+        JUST LOADED !!!!!!!!!!!!!!!!!!
+        JESUS CHRIST!!!!!!!!!!!!!!
+
+        WHY IS IT ONLY SHOWING A SMALL PORTION THAT IS LOADED
+
+        STILL WAS OVERTHINKING EVERYTHING
+
+        SHOULD JUST BE A SIMPLE "select[name='termSelector']" FOR A BY CSS SELECTOR OR SOMETHING
+
+        THAT SHOULD WORK
+
+        OH OKAY ----------------------> I NEED TO MAKE USE OF THE OTHER FILES
+        SINCE THE DOM OF THE TIGER CENTER LANDING PAGE AND CLASS SEARCH PAGE HAVE CUSTOM ELEMENTS
+        I WILL NEED TO USE ANGULAR VIEW angularView
+
+        THIS SHOULD WORK
+        angularView.findChildBy(By.cssSelector("select[name='termSelector']"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+=================================================================
+maybe for finding the search button element
+With type DomElement
+(if it were for class search)
+=================================================================
+
+IDEA / POSSIBILITY SINCE ANGULAR / WHAT I CAN REMEMBER OF THE DOM (HAS YET TO LOAD)
+    -  SHOULD JUST BE A SIMPLE button
+    -  LIKELY WITH TYPE SUBMIT
+    -  MAYBE I CAN JUST USE .submit for the search input when entering in a keyword
+        -  NOPE SUBMIT DOESN'T WORK
+    -  I see a lot of ng-(blah blah blah)
+    -  SHOULD BE PART OF A form
+    -  There are a lot of these kind of _ngcontent-jbs-c210 or _ngcontent-bis-c225 and BLAH BLAH jibberish
+    -  Based on the form element and the other
+        -  NOTE FOR SOME FORM CONTROL OR ELEMENT CONTROL
+        -  MIGHT NEED TO CHECK IF SOMETHING IS VALID (LIKE THE OPTIONS)
+        -  MIGHT NEED TO CHECK IF SOMETHING IS SELECTED OR touched
+    -  Never mind, it was just a simple name attribute with "termSelector" as the name
+
+LOOK BACK AT PREVIOUS ANGULAR PROJECTS AND THINK BACK TO MY NUXT/VUE CO-OP
+
+BE SURE TO REFERENCE THIS IN MY MAIN CLASS SEARCH COMPONENT / FUNCTIONS / ETC
+
+        // i.e.
+        // THE DOM ELEMENT CAN LOOK LIKE THIS IN AN ANGULAR SETTING
+        // <button _ngcontent-jbs-c209="" class="btn btn-primary" type="submit">
+        
+        ACTUALLY
+        LOOKING AT THE DOM
+                        ^
+        WHY IS IT STILL TAKING FOREVER TO LOAD!?!?!?!?!?!
+        JUST LOADED !!!!!!!!!!!!!!!!!!
+        JESUS CHRIST!!!!!!!!!!!!!!
+
+        WHY IS IT ONLY SHOWING A SMALL PORTION THAT IS LOADED
+
+        STILL WAS OVERTHINKING EVERYTHING
+
+        THAT SHOULD WORK
+
+        OH OKAY ----------------------> I NEED TO MAKE USE OF THE OTHER FILES
+        SINCE THE DOM OF THE TIGER CENTER LANDING PAGE AND CLASS SEARCH PAGE HAVE CUSTOM ELEMENTS
+        I WILL NEED TO USE ANGULAR VIEW angularView
+
+
+        THIS SHOULD WORK BUT WHY IS IT NOT WORKING!!!!!!!!!!!!!!
+        angularView.findChildBy(By.cssSelector("By.cssSelector("button[class='classSearchSearchButtonGray ng-star-inserted']")));
+
+
+
+        OOOOOOOOOOOOOOHHHHHHHHHH
+
+        ACTUALLY WHILE WORKING ON INPUTTING THE KEYWORD IN THE SEARCH INPUT AND SELECTING THE TERM
+        AFTER INPUTTING THE KEYWORD ----------> THE SEARCH BUTTON CHANGES FROM GRAY OUT TO ORANGE (BETWEEN DIFFERENT SEARCH SUBMIT BUTTON ELEMENTS)
+
+        
+        NOW THIS SHOULD WORK!!!!!!!!!!!!!!!!!!!!
+        angularView.findChildBy(By.cssSelector("By.cssSelector("button[class='classSearchSearchButton ng-star-inserted']")));
+
+
+
+
+
+
+
+
+
+
+
+=================================================================
+maybe for finding the course catalog button element thing
+With type DomElement
+(if it were for class search)
+=================================================================
+
+IDEA / POSSIBILITY SINCE ANGULAR / WHAT I CAN REMEMBER OF THE DOM (HAS YET TO LOAD)
+    -  SHOULD JUST BE A SIMPLE button
+    -  SOMEHOW TRIGGERS AN OVERLAY
+    -  I see a lot of ng-(blah blah blah)
+    -  There are a lot of these kind of _ngcontent-jbs-c210 or _ngcontent-bis-c225 and BLAH BLAH jibberish
+    -  I think it was an <a> tag element
+        -  Might have a href attribute
+            -  Usually does for <a> tag elements
+    -  UPDATED:
+        -  Simple class attribute with "classSearchCourseCatalogText" as the name
+            -  But how do I click it?????????????
+                -  By class
+                -  By text
+        -  OOOOOOOOOOOHHHHHHHHHH
+            -  It's just a div > a > span structure
+            -  MAYBE by link or link text since it is "Course Catalog" in a span element which is in a <a> element
+
+LOOK BACK AT PREVIOUS ANGULAR PROJECTS AND THINK BACK TO MY NUXT/VUE CO-OP
+
+BE SURE TO REFERENCE THIS IN MY MAIN CLASS SEARCH COMPONENT / FUNCTIONS / ETC
+
+        // i.e.
+        // THE DOM ELEMENT CAN LOOK LIKE THIS IN AN ANGULAR SETTING
+        //    <a _ngcontent-jbs-c209="" class="nav-link" routerlink="/course-catalog" href="/course-catalog">Course Catalog</a>
+        // OR WITH WHATEVER PATH IT IS
+        // I CAN PROBABLY FIND IT AND TRIGGER IT AS A BUTTON WITH THE "Course Catalog" text
+        //        CHECK if there is a by path or dom element structure
+        //    By.xpath("//button[contains(text(), 'Course Catalog')]")
+        
+        
+
+        SAVE THIS BEFORE FORGETTING AND THE DOM INSPECT DOESN'T LOAD AGAIN!!!!!!!!!!!!!!!!!!!!!!!!
+
+        <div _ngcontent-bis-c225="" class="col-xs-5 col-sm-3 text-right classSearchMobileAdjustPadding">
+          <a _ngcontent-bis-c225="">
+            <span _ngcontent-bis-c225="" class="classSearchCourseCatalogText">
+              Course Catalog
+            </span>
+          </a>
+        </div>   
+        
+
+        IT'S ACTUALLY A <a> TAG ELEMENT
+        PROBABLY TRIGGERING IT AS A LINK????????
+
+
+        OH OKAY ----------------------> I NEED TO MAKE USE OF THE OTHER FILES
+        SINCE THE DOM OF THE TIGER CENTER LANDING PAGE AND CLASS SEARCH PAGE HAVE CUSTOM ELEMENTS
+        I WILL NEED TO USE ANGULAR VIEW angularView
+
+
+        THIS SHOULD WORK
+        angularView.findChildBy(By.cssSelector("span.classSearchCourseCatalogText"));
+
+
+        THAT'S INTERESTING
+        DIDN'T NOTICE IT BEFORE
+        IN DOM ELEMENT, THERE IS ACTUALLY A BY LINK TEXT I CAN USE TO FIND IT BY LINK TEXT
+
+        LET'S TRY THIS FOR A CHANGE
+
+        THIS SHOULD WORK
+        angularView.findChildBy(By.linkText("Course Catalog"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Will need to assert or find:
+        -  That the term message is displayed after being selected
+        -  That the accordian or expandable tree sujects and course are found [like a .isDisplayed()] or clickable [like a .click()]
+        -  '//' selects nodes from the current node that match the selection, no matter where they are.
+            -  For the course catalog subjects
+                -  Looks like I can probably do '//mat-expansion-panel-header' to select all the <mat-expansion-panel-header> tag elements
+            -  For the courses from the catalog
+                -  I can probably do a:
+                -  '//div' to select all <div> tag elements on the page
+                -  './/span' to look for any and all <span> tag elements
+                    -  Will need to be inside the '//div' (i.e., '//div[.//span]')
+        -  '*' is a wildcard that matches any element.
+        -  This should work to find what I am specifically looking for while accepting and using a parameter/argument
+            -  '[contains(., '%s')]' for the current node '.' to match or has the subject name
+            -  '[contains(text(), '%s')]' to find <span> elements that has its text content to have the a specific course name
+            -  Be sure to do arguement/parameter name (i.e., 'subjectArea' or 'courseName') when necessary
+            -  Will have to use String.format() since I am doing '%s', especially for accross the xpath
+        -  Check these out again for reference:
+            -  https://stackoverflow.com/questions/6538883/java-how-to-locate-an-element-via-xpath-string-on-org-w3c-dom-document
+            -  https://www.baeldung.com/java-xpath
+            -  https://www.w3schools.com/xml/xpath_syntax.asp
+            -  https://docs.oracle.com/javase/8/docs/api/javax/xml/xpath/package-summary.html
+            -  https://www.youtube.com/watch?v=a7pjC_gzhPE
+            -  https://www.youtube.com/watch?v=kbmYMeoTg2Q
+            -  https://www.youtube.com/watch?v=BMmRJmGzMlw
+            -  https://stackoverflow.com/questions/24270101/dom-find-element-by-xpath/24270377
+            -  https://developer.mozilla.org/en-US/docs/Web/XML/XPath/Guides/Introduction_to_using_XPath_in_JavaScript
+            -  https://www.browserstack.com/guide/find-element-by-xpath-in-selenium
+            -  https://howtodoinjava.com/java/xml/java-xpath-tutorial-example/
+
+
+
+
+
+
+
+
+
