@@ -7,8 +7,10 @@ import edu.rit.swen253.page.AbstractAngularPage;
 import edu.rit.swen253.utils.DomElement;
 
 public class GPACalculator extends AbstractAngularPage{
+    private final DomElement innerContainer;
     public GPACalculator() {
         super("gpa-calc");
+        innerContainer = findOnPage(By.cssSelector("div.container-fluid > div.row"));
     }
 
     /*
@@ -52,12 +54,6 @@ public class GPACalculator extends AbstractAngularPage{
                 addButton.click();
             }
 
-            try {
-                Thread.sleep(1000);
-            } catch(InterruptedException e) {
-                e.printStackTrace();
-            }
-
             // Get all course name inputs
             List<DomElement> courseNameInputs = findAllOnPage(By.cssSelector(".inputBox.courseInputWidth"));
             if (i < courseNameInputs.size()) {
@@ -92,27 +88,6 @@ public class GPACalculator extends AbstractAngularPage{
     public GPAResult calculateGPA() {
         DomElement calculateButton = findOnPage(By.cssSelector("button.primaryButton"));
         calculateButton.click();
-
-        // Wait for calculation
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        List<DomElement> results = findAllOnPage(By.cssSelector(".results, [class*='results']"));
-
-        if (results == null || results.isEmpty()) {
-            throw new RuntimeException("GPA calculation results not found on page");
-        }
-        
-        if (results.size() < 2) {
-            throw new RuntimeException("Expected at least 2 result elements, but found " + results.size());
-        }
-
-        String term = results.get(0).getText();
-        String cummulative = results.get(1).getText();
-
-        return new GPAResult(Float.parseFloat(term), Float.parseFloat(cummulative));
+        return new GPAResult(innerContainer);
     }
 }

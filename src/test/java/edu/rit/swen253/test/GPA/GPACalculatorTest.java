@@ -23,16 +23,14 @@ import edu.rit.swen253.utils.BrowserWindow;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GPACalculatorTest extends AbstractWebTest {
     private TigerCenterHomePage homePage;
-    private BrowserWindow<TigerCenterHomePage> homeWindow;
+    private GPACalculator gpaPage;
 
     @Test
     @Order(1)
     @DisplayName("Navigate to the Tiger Center Home page and then GPA Calculator")
     void navigateToHomePage() {
         homePage = navigateToPage("https://tigercenter.rit.edu", TigerCenterHomePage::new);
-        homeWindow = getCurrentWindow();
         assertNotNull(homePage);
-        assertNotNull(homeWindow);
     }
 
     @Test
@@ -40,19 +38,14 @@ public class GPACalculatorTest extends AbstractWebTest {
     @DisplayName("Verify we're on the GPA Calculator page")
     void verifyGPACalculatorPage() {
         homePage.selectGPACalculator();
-        SimplePage gpaPage = assertNewPage(SimplePage::new);
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {}
-        assertEquals("https://tigercenter.rit.edu/tigerCenterApp/api/gpa-calc", gpaPage.getURL());
+        homePage.waitUntilGone();
+        gpaPage = assertNewPage(GPACalculator::new);
     }
 
     @Test
     @Order(3)
     @DisplayName("Calculating GPAs - Term and Cummulative")
     void calculateGPA() {
-        switchToWindow(homeWindow);
-        GPACalculator gpaPage = new GPACalculator();
 
         gpaPage.enterCummulativeGPA(3);
         gpaPage.enterCredits(18);
@@ -68,7 +61,7 @@ public class GPACalculatorTest extends AbstractWebTest {
 
         GPAResult result = gpaPage.calculateGPA();
         assertNotNull(result);
-        System.out.println("Term GPA: " + result.getTermGPA());
-        System.out.println("Cumulative GPA: " + result.getCummulativeGPA());
-    }   
+        assertEquals(3.61, result.getTermGPA(), 0.01);
+        assertEquals(3.26, result.getCummulativeGPA(), 0.01);
+    }
 }
